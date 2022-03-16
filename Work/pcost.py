@@ -2,16 +2,18 @@
 #
 # Exercise 1.27
 
+import csv
+
+
 def portfolio_cost(filename):
     'Calculates the total cost of a portfolio from CSV file'
     total_cost = 0
 
     f = open(filename, 'rt')
-    headers = next(f).split(',')
+    rows = csv.reader(f)
+    headers = next(rows)
 
-    for line in f:
-        row = line.split(',')
-
+    for row in rows:
         try:
             total_cost = total_cost + (int(row[1]) * float(row[2]))
         except ValueError:
