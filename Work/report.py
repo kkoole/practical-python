@@ -32,3 +32,18 @@ def read_prices(filename):
                 prices[str(row[0])] = float(row[1])
 
     return prices
+
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+
+value = 0
+change = 0
+
+for share in portfolio:
+    share_change = prices[share['name']] - share['price']
+
+    value += prices[share['name']]
+    change += share_change
+
+print(f'Current value of portfolio ${value:0.2f}\nChange ${change:0.2f}')
