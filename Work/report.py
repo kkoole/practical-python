@@ -43,7 +43,7 @@ change = 0
 for share in portfolio:
     share_change = prices[share['name']] - share['price']
 
-    value += prices[share['name']]
-    change += share_change
+    value += prices[share['name']] * share['shares']
+    change += share_change * share['shares']
 
 print(f'Current value of portfolio ${value:0.2f}\nChange ${change:0.2f}')
