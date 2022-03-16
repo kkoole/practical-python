@@ -2,16 +2,21 @@
 #
 # Exercise 1.27
 
-total_cost = 0
+def portfolio_cost(filename):
+    'Calculates the total cost of a portfolio from CSV file'
+    total_cost = 0
 
-f = open('Data/portfolio.csv', 'rt')
-headers = next(f).split(',')
+    f = open(filename, 'rt')
+    headers = next(f).split(',')
 
-for line in f:
-    row = line.split(',')
+    for line in f:
+        row = line.split(',')
 
-    total_cost = total_cost + (int(row[1]) * float(row[2]))
+        total_cost = total_cost + (int(row[1]) * float(row[2]))
 
-print(f'Total cost {total_cost:0.2f}')
+    f.close()
 
-f.close()
+    return total_cost
+
+cost = portfolio_cost('Data/portfolio.csv')
+print(f'Total cost {cost:0.2f}')
