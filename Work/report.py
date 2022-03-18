@@ -46,26 +46,19 @@ def make_report(portfolio, prices):
     return report
 
 
+def print_report(report):
+    '''Prints the report'''
+    headers = ('Name', 'Shares', 'Price', 'Change')
+
+    print('%10s %10s %10s %10s' % headers)
+    print('---------- ' * len(headers))
+
+    for name, shares, price, change in report:
+        price_dollar = f'${price:.2f}'
+        print(f'{name:>10s} {shares:>10d} {price_dollar:>10} {change:>10.2f}')
+
+
 portfolio = read_portfolio('Data/portfoliodate.csv')
 prices = read_prices('Data/prices.csv')
-
 report = make_report(portfolio, prices)
-headers = ('Name', 'Shares', 'Price', 'Change')
-
-print('%10s %10s %10s %10s' % headers)
-print('---------- ' * len(headers))
-
-for name, shares, price, change in report:
-    price_dollar = f'${price:.2f}'
-    print(f'{name:>10s} {shares:>10d} {price_dollar:>10} {change:>10.2f}')
-
-#value = 0
-#change = 0
-#
-#for share in portfolio:
-#    share_change = prices[share['name']] - share['price']
-#
-#    value += prices[share['name']] * share['shares']
-#    change += share_change * share['shares']
-#
-#print(f'Current value of portfolio ${value:0.2f}\nChange ${change:0.2f}')
+print_report(report)
