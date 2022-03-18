@@ -57,8 +57,12 @@ def print_report(report):
         price_dollar = f'${price:.2f}'
         print(f'{name:>10s} {shares:>10d} {price_dollar:>10} {change:>10.2f}')
 
+def portfolio_report(portfolio_csv, prices_csv):
+    '''Processes a report on a portfolio using the portfolio and prices CSV files as input'''
+    portfolio = read_portfolio(portfolio_csv)
+    prices = read_prices(prices_csv)
+    report = make_report(portfolio, prices)
+    print_report(report)
 
-portfolio = read_portfolio('Data/portfoliodate.csv')
-prices = read_prices('Data/prices.csv')
-report = make_report(portfolio, prices)
-print_report(report)
+
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
