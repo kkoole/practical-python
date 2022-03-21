@@ -5,15 +5,16 @@
 import csv
 
 
-def parse_csv(filename, select=None, types=None):
+def parse_csv(filename, select=None, types=None, has_headers=False):
     '''
     Parse a CSV file into a list of records
     '''
     with open(filename) as f:
         rows = csv.reader(f)
 
-        # Read the file headers
-        headers = next(rows)
+        if has_headers:
+            # Read the file headers
+            headers = next(rows)
 
         # If a column selector was given, find indices of the specified columns.
         # Also narrow the set of headers used for resulting dictionaries.
@@ -34,8 +35,11 @@ def parse_csv(filename, select=None, types=None):
             if types:
                 row = [ func(val) for func, val in zip(types, row) ]
 
-            # Make a dictionary
-            record = dict(zip(headers,row))
+            if has_headers:
+                # Make a dictionary
+                record = dict(zip(headers,row))
+            else:
+                record = tuple(row)
             records.append(record)
 
     return records
