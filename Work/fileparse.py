@@ -5,15 +5,18 @@
 import csv
 
 
-def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
+def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
     '''
     Parse a CSV file into a list of records
     '''
+    if isinstance(lines, str):
+        raise RuntimeError("lines argument cannot be a filename (string)")
+
     if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
 
-    with open(filename) as f:
-        rows = csv.reader(f, delimiter=delimiter)
+    for line in lines:
+        rows = csv.reader(lines, delimiter=delimiter)
 
         if has_headers:
             # Read the file headers
