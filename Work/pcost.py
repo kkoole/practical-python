@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # pcost.py
 #
 # Exercise 1.27
