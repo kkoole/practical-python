@@ -5,14 +5,16 @@
 
 import csv
 import fileparse
+import stock
 
 
 def read_portfolio(filename):
     '''Computes the total cost (shares*price) of a portfolio file'''
     with open(filename) as f:
-        portfolio = fileparse.parse_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
+        portdicts = fileparse.parse_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
+    portfolio = [ stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts ]
 
-        return portfolio
+    return portfolio
 
 
 def read_prices(filename):
@@ -28,9 +30,9 @@ def make_report(portfolio, prices):
     '''Creates a report on the porfolio using prices'''
     report = []
 
-    for share in portfolio:
-        holding = (share['name'], share['shares'], prices[share['name']], (prices[share['name']] - share['price']))
-        report.append(holding)
+    for stock in portfolio:
+        stock_holding = (stock.name, stock.shares, prices[stock.name], (prices[stock.name] - stock.price))
+        report.append(stock_holding)
 
     return report
 

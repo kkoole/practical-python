@@ -14,8 +14,8 @@ def portfolio_cost(filename):
 
     portfolio = report.read_portfolio(filename)
 
-    for holding in portfolio:
-        total_cost += holding['shares'] * holding['price']
+    for stock in portfolio:
+        total_cost += stock.shares * stock.price
             
     return total_cost
 
