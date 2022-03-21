@@ -3,34 +3,20 @@
 # Exercise 2.4
 
 import csv
+import fileparse
 
 
 def read_portfolio(filename):
     '''Computes the total cost (shares*price) of a portfolio file'''
-    portfolio = []
-
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        for row in rows:
-            record = dict(zip(headers, row))
-            holding = {'name': record['name'], 'shares': int(record['shares']), 'price': float(record['price'])}
-            portfolio.append(holding)
+    portfolio = fileparse.parse_csv(filename, select=['name', 'shares', 'price'], types=[str, int, float])
 
     return portfolio
 
 
 def read_prices(filename):
     '''Reads the prices from a prices file'''
-    prices = {}
-
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        for row in rows:
-            if len(row) < 2:
-               pass 
-            else:
-                prices[str(row[0])] = float(row[1])
+    pricelist = fileparse.parse_csv(filename, types=[str, float], has_headers=False) 
+    prices = dict(pricelist)
 
     return prices
 
