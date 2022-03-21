@@ -43,7 +43,7 @@ def print_report(reportdata, formatter):
     Print a nicely formatted table from a list of (name, shares, price, change) tuples.
     '''
     formatter.headings(['Name', 'Shares', 'Price', 'Change'])
-    for name, shares, price in reportdata:
+    for name, shares, price, change in reportdata:
         rowdata = [ name, str(shares), f'{price:0.2f}', f'{change:0.2f}' ]
         formatter.row(rowdata)
 
@@ -60,7 +60,7 @@ def portfolio_report(portfoliofile, pricefile):
     report = make_report(portfolio, prices)
 
     # Print it out
-    formatter = tableformat.TableFormatter()
+    formatter = tableformat.HTMLTableFormatter()
     print_report(report, formatter)
 
 
