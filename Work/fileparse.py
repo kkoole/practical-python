@@ -5,7 +5,7 @@
 import csv
 
 
-def parse_csv(filename, select=None):
+def parse_csv(filename, select=None, types=None):
     '''
     Parse a CSV file into a list of records
     '''
@@ -18,7 +18,7 @@ def parse_csv(filename, select=None):
         # If a column selector was given, find indices of the specified columns.
         # Also narrow the set of headers used for resulting dictionaries.
         if select:
-            indices = [headers.index(colname) for colname in select]
+            indices = [ headers.index(colname) for colname in select ]
             headers = select
         else:
             indices = []
@@ -30,6 +30,9 @@ def parse_csv(filename, select=None):
             # Filter the row if specific columns were selected
             if indices:
                 row = [ row[index] for index in indices ]
+            # Apply type casting if types were specified
+            if types:
+                row = [ func(val) for func, val in zip(types, row) ]
 
             # Make a dictionary
             record = dict(zip(headers,row))
