@@ -6,6 +6,7 @@
 import csv
 import fileparse
 import stock
+import tableformat
 
 
 def read_portfolio(filename):
@@ -37,23 +38,30 @@ def make_report(portfolio, prices):
     return report
 
 
-def print_report(report):
-    '''Prints the report'''
-    headers = ('Name', 'Shares', 'Price', 'Change')
+def print_report(reportdata, formatter):
+    '''
+    Print a nicely formatted table from a list of (name, shares, price, change) tuples.
+    '''
+    formatter.headings(['Name', 'Shares', 'Price', 'Change'])
+    for name, shares, price in reportdata:
+        rowdata = [ name, str(shares), f'{price:0.2f}', f'{change:0.2f}' ]
+        formatter.row(rowdata)
 
-    print('%10s %10s %10s %10s' % headers)
-    print('---------- ' * len(headers))
 
-    for name, shares, price, change in report:
-        price_dollar = f'${price:.2f}'
-        print(f'{name:>10s} {shares:>10d} {price_dollar:>10} {change:>10.2f}')
+def portfolio_report(portfoliofile, pricefile):
+    '''
+    Make a stock report given portfolio and price data files.
+    '''
+    # Read data files
+    portfolio = read_portfolio(portfoliofile)
+    prices = read_prices(pricefile)
 
-def portfolio_report(portfolio_csv, prices_csv):
-    '''Processes a report on a portfolio using the portfolio and prices CSV files as input'''
-    portfolio = read_portfolio(portfolio_csv)
-    prices = read_prices(prices_csv)
+    # Create the report data
     report = make_report(portfolio, prices)
-    print_report(report)
+
+    # Print it out
+    formatter = tableformat.TableFormatter()
+    print_report(report, formatter)
 
 
 def main(argv):
