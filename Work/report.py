@@ -9,15 +9,17 @@ import fileparse
 
 def read_portfolio(filename):
     '''Computes the total cost (shares*price) of a portfolio file'''
-    portfolio = fileparse.parse_csv(filename, select=['name', 'shares', 'price'], types=[str, int, float])
+    with open(filename) as f:
+        portfolio = fileparse.parse_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
 
-    return portfolio
+        return portfolio
 
 
 def read_prices(filename):
     '''Reads the prices from a prices file'''
-    pricelist = fileparse.parse_csv(filename, types=[str, float], has_headers=False) 
-    prices = dict(pricelist)
+    with open(filename) as f:
+        pricelist = fileparse.parse_csv(f, types=[str, float], has_headers=False) 
+        prices = dict(pricelist)
 
     return prices
 
