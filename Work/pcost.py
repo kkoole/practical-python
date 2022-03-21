@@ -4,25 +4,20 @@
 
 import sys
 import csv
+import report
 
 
 def portfolio_cost(filename):
     'Calculates the total cost of a portfolio from CSV file'
     total_cost = 0
 
-    f = open(filename, 'rt')
-    rows = csv.reader(f)
-    headers = next(rows)
+    portfolio = report.read_portfolio(filename)
 
-    for rowno, row in enumerate(rows, start=1):
-        try:
-            total_cost = total_cost + (int(row[1]) * float(row[2]))
-        except ValueError:
-            print(f'Row {rowno}: Bad row: {row}')
-
-    f.close()
-
+    for holding in portfolio:
+        total_cost += holding['shares'] * holding['price']
+            
     return total_cost
+
 
 if len(sys.argv) == 2:
     filename = sys.argv[1]
